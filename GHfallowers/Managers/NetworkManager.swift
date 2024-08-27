@@ -5,11 +5,14 @@
 //  Created by Fen on 05/08/2024.
 //
 
-import Foundation
+import UIKit
 
 class NetworkManager {
     static let shared = NetworkManager()
-    let baseURL = "https://api.github.com/users/"
+    private let baseURL = "https://api.github.com/users/"
+//    NS vient de la transition avec Objective-C et veut dire Next Step
+    let cache = NSCache<NSString, UIImage>()
+    
     private init() {}
 //    le type Result permet de se passer des optionnels, il permet de donner un type de retour en caise de .success ou de .failure
     func getFollowers(for username : String, page : Int, completed : @escaping (Result<[Follower],GFError>)->Void) {

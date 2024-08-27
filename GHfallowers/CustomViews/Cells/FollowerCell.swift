@@ -7,7 +7,7 @@
 
 import UIKit
 
-class followerCell: UICollectionViewCell {
+class FollowerCell: UICollectionViewCell {
     static let reuseID = "FollowerCell"
     
     let avatarImageView = GFAvatarImageView(frame: .zero)
@@ -24,6 +24,7 @@ class followerCell: UICollectionViewCell {
     
     func set(follower : Follower) {
         usernameLabel.text = follower.login
+        avatarImageView.downloadImage(from: follower.avatarUrl)
     }
     
     private func configure() {
