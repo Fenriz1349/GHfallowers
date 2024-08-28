@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 //fileprivate permet de restrainte le scope d'une variable au fichier seul
 fileprivate var containerView: UIView!
@@ -20,6 +21,11 @@ extension UIViewController {
             
             self.present(alertVC,animated: true)
         }
+    }
+    func presentSafariVc(with url:URL){
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.preferredControlTintColor = .systemGreen
+        present(safariVC,animated: true)
     }
     
     func showLoadingView() {
