@@ -1,8 +1,8 @@
 //
-//  ErrorMEssages.swift
+//  GFError.swift
 //  GHfallowers
 //
-//  Created by Fen on 05/08/2024.
+//  Created by Fen on 28/08/2024.
 //
 
 import Foundation
