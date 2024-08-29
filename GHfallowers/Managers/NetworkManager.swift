@@ -45,6 +45,7 @@ class NetworkManager {
                 let decoder = JSONDecoder()
 //                permet de transcrire le snake_case du json en camelCase pour swift
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                decoder.dateDecodingStrategy = .iso8601
 //                on essaye de decoder la data en liste de Follower
                 let followers = try decoder.decode([Follower].self, from: data)
                 completed(.success(followers))
@@ -84,6 +85,35 @@ class NetworkManager {
             } catch {
                 completed(.failure(.invalidData))
             }
+        }
+        task.resume()
+    }
+    
+    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {
+        //        si l'image est dans le cache, on l'utilise au lieu de la retelecharger
+        let cacheKey = NSString(string: urlString)
+        if let image = cache.object(forKey: cacheKey) {
+            completed(image)
+            return
+        }
+        //        on ne fera pas de gestion d'erreur car on a placeholder pour l'image, et c'est plus rapide et fluide pour l'utilisateur
+        guard let  url = URL (string: urlString) else {
+            completed(nil)
+            return}
+        
+        let task = URLSession.shared.dataTask(with: url) {[weak self] data, response, error in
+            guard let self = self, 
+                error == nil,
+                let response = response as? HTTPURLResponse, response.statusCode == 200,
+                let data = data,
+                let image = UIImage(data: data) else {
+                completed(nil)
+                return
+            }
+
+            self.cache.setObject(image, forKey: cacheKey)
+            completed(image)
+            
         }
         task.resume()
     }

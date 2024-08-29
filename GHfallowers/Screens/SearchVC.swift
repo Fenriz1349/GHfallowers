@@ -27,6 +27,8 @@ class SearchVC: UIViewController {
 //    configure la view à chaque apparition
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+//        assure d'avoir un champ vide quand on la vue apparait
+        usernameTextField.text = ""
         navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
@@ -36,7 +38,7 @@ class SearchVC: UIViewController {
 //        permet d'utiliser autoconstraint
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
 //        indique quelle image des assests utiliser, préféré les constantes au lieu d'une String
-        logoImageView.image = UIImage(named: "gh-logo")!
+        logoImageView.image = Images.ghlogo
 //        Array des constraints de l'image, ici la top anchor, le centrage horizontale, la hauteur et la largeur
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
@@ -73,7 +75,7 @@ class SearchVC: UIViewController {
     }
 //    fonction pour supprimer le clavier en touchant l'écran
     func createDismissKeyboardTapGesture() {
-        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
         view.addGestureRecognizer(tap)
     }
     
@@ -82,9 +84,10 @@ class SearchVC: UIViewController {
             presentGFAlertOnMainThread(title: "Empty Username", message: "Please enter a username. We need to know who to look for 😀.", buttonTitle: "OK")
             return
         }
-        let followerListVC = FollowersListVC()
-        followerListVC.username = usernameTextField.text
-        followerListVC.title = usernameTextField.text
+//        permet de supprimer le clavier quand on passe à l'écran suivant
+        usernameTextField.resignFirstResponder()
+        
+        let followerListVC = FollowersListVC(username: usernameTextField.text!)
         navigationController?.pushViewController(followerListVC, animated: true)
     }
 }

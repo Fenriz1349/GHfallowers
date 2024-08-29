@@ -12,7 +12,7 @@ protocol UserInfoVcDelegate: AnyObject {
     func didTapGetFollowers(for user:User)
 }
 
-class UserInfoVC: UIViewController {
+class UserInfoVC: GFDataLoadingVC {
 
     var username: String!
     weak var delegate: FollowerListVCDelegate!
