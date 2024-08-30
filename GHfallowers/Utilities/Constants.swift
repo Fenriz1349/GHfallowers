@@ -21,6 +21,13 @@ enum SFSymbols {
     static let following = UIImage(systemName: "person.2")
 }
 
+enum SFNames: String {
+    case search = "magnifyingglass"
+    case check = "checkmark"
+    case github = "person"
+    case persons = "person.2"
+}
+
 enum GFImages {
     static let ghlogo = UIImage(named: "gh-logo")
     static let placeholder = UIImage(named: "avatar-placeholder")
