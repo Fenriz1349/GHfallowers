@@ -39,7 +39,6 @@ class GFAlertVC: UIViewController {
         configureTitleLabel()
         configureActionButton()
         configureMessageLabel()
-
     }
     
     func configureContainerView() {
@@ -85,6 +84,7 @@ class GFAlertVC: UIViewController {
             messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -padding)
         ])
     }
+    
     @objc func dismissVC() {
         dismiss(animated: true)
     }

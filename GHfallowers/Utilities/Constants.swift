@@ -7,6 +7,12 @@
 
 import UIKit
 
+let okString = "OK"
+let padding:CGFloat = 20
+let textImagePadding: CGFloat = 12
+let itemHeight:CGFloat = 140
+
+
 enum SFSymbols {
     static let location = UIImage(systemName: "mappin.and.ellipse")
     static let repos = UIImage(systemName: "folder")
@@ -29,6 +35,7 @@ enum GFAlertTitles {
     static let invalidURL = "URL Invalide"
     static let noFollower = "Aucun Followers"
 }
+
 enum GFError : String,Error {
     case invalidUsername = "Ce nom d’utilisateur a créé une requête invalide, veuillez réessayer"
     case unableToComplete = "Impossible de compléter votre requête. Veuillez vérifier votre connexion Internet."
@@ -44,8 +51,3 @@ enum GFAlertMessages {
     static let invalidURL = "l'URL utilisée est invalide."
     static let noFollower = "Cet utilisateur n'a aucun followers. Quelle tristesse 🙂‍↕️"
 }
-
-let okString = "OK"
-let padding:CGFloat = 20
-let textImagePadding: CGFloat = 12
-let itemHeight:CGFloat = 140

@@ -26,6 +26,7 @@ class GFEmptyStateView: UIView {
         self.init(frame: .zero)
         messeageLabel.text = message
     }
+    
     private func configure() {
         addSubviews(messeageLabel, logoImageView)        
         messeageLabel.numberOfLines = 3

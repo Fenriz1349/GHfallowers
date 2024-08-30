@@ -47,17 +47,21 @@ class FavoritesListVC: GFDataLoadingVC {
             
             switch result {
             case .success(let favorites) :
-                if favorites.isEmpty {
-                    self.showEmptyStateView(with: "Pas de favoris ?\nAjoutez en un depuis l'écran des followers.", in: self.view)
-                }else {
-                    self.favorites = favorites
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.view.bringSubviewToFront(self.tableView)
-                    }
-                }
+                self.updateUI(with: favorites)
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
+            }
+        }
+    }
+    
+    func updateUI(with favorites: [Follower]) {
+        if favorites.isEmpty {
+            self.showEmptyStateView(with: "Pas de favoris ?\nAjoutez en un depuis l'écran des followers.", in: self.view)
+        }else {
+            self.favorites = favorites
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.bringSubviewToFront(self.tableView)
             }
         }
     }

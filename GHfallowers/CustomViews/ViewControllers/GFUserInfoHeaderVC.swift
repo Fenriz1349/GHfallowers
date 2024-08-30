@@ -36,7 +36,7 @@ class GFUserInfoHeaderVC: UIViewController {
     }
     
     func configureUIElements(){
-        downloadAvatarImage()
+        avatarImageView.downloadImage(fromURL: user.avatarUrl)
         usernameLabel.text = user.login
         nameLabel.text = user.name ?? ""
         locationLabel.text = user.location ?? "Pas de localisation"
@@ -47,15 +47,8 @@ class GFUserInfoHeaderVC: UIViewController {
         locationImageView.tintColor = .secondaryLabel
     }
     
-    func downloadAvatarImage() {
-        NetworkManager.shared.downloadImage(from: user.avatarUrl) { [weak self] image in
-            guard let self = self else { return }
-            DispatchQueue.main.async { self.avatarImageView.image = image }
-        }
-    }
     
     func layoutUI() {
-        
         locationImageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -89,6 +82,5 @@ class GFUserInfoHeaderVC: UIViewController {
             bioLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             bioLabel.heightAnchor.constraint(equalToConstant: 90)
         ])
-        
     }
 }

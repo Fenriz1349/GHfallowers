@@ -8,6 +8,7 @@
 import UIKit
 
 class NetworkManager {
+    
     static let shared = NetworkManager()
     private let baseURL = "https://api.github.com/users/"
 //    NS vient de la transition avec Objective-C et veut dire Next Step
@@ -39,7 +40,6 @@ class NetworkManager {
                 completed(.failure(.invalidData))
                 return
             }
-            
             do {
 //                on decode la reponse JSON en objet swift
                 let decoder = JSONDecoder()

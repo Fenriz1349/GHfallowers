@@ -29,15 +29,13 @@ class GFTextField: UITextField {
         tintColor = .label
         textAlignment = .center
         font = UIFont.preferredFont(forTextStyle: .title2)
-//        abrege le text si il est trop long
-        adjustsFontSizeToFitWidth = true
+        adjustsFontSizeToFitWidth = true //abrege le text si il est trop long
         minimumFontSize = 12
         
         backgroundColor = .tertiarySystemBackground
         autocorrectionType = .no
         returnKeyType = .go
-//        ajout d'un bouton pour supprimer tout le champ du texfield
-        clearButtonMode = .whileEditing
+        clearButtonMode = .whileEditing //ajout d'un bouton pour supprimer tout le champ du texfield
         placeholder = "Entrer un nom d'utilisateur"
     }
 }

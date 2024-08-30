@@ -22,6 +22,7 @@ class UserInfoVC: GFDataLoadingVC {
     let dateLabel = GFBodyLabel(textAlignment: .center)
     var itemViews: [UIView] = []
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
@@ -90,12 +91,14 @@ class UserInfoVC: GFDataLoadingVC {
         childVC.view.frame = containerView.bounds
         childVC.didMove(toParent: self)
     }
+    
     @objc func dismissVC() {
         dismiss(animated: true)
     }
 }
 
 extension UserInfoVC: GFRepoItemVCDelegate {
+    
     func didTapGithubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
             presentGFAlertOnMainThread(title:  GFAlertTitles.invalidURL, message: GFAlertMessages.invalidURL, buttonTitle: okString)
@@ -106,6 +109,7 @@ extension UserInfoVC: GFRepoItemVCDelegate {
 }
 
 extension UserInfoVC: GFFollowerItemVCDelegate {
+    
     func didTapGetFollowers(for user: User) {
         guard user.followers != 0 else {
             presentGFAlertOnMainThread(title: GFAlertTitles.noFollower, message: GFAlertMessages.noFollower, buttonTitle: okString)

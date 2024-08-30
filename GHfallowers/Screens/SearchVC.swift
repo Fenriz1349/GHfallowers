@@ -14,6 +14,8 @@ class SearchVC: UIViewController {
     let getFollowerButton = GFButton(backgroundColor: .systemGreen, title: "Voir les Followers")
     
     var isUsernameEntered : Bool { return !usernameTextField.text!.isEmpty }
+    
+    
 //    configure la view à sa création
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +72,7 @@ class SearchVC: UIViewController {
             getFollowerButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
 //    fonction pour supprimer le clavier en touchant l'écran
     func createDismissKeyboardTapGesture() {
         let tap = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing(_:)))
@@ -81,14 +84,12 @@ class SearchVC: UIViewController {
             presentGFAlertOnMainThread(title: GFAlertTitles.invalidUsername, message: GFAlertMessages.invalidUsername, buttonTitle: okString)
             return
         }
-//        permet de supprimer le clavier quand on passe à l'écran suivant
-        usernameTextField.resignFirstResponder()
+        usernameTextField.resignFirstResponder() //permet de supprimer le clavier quand on passe à l'écran suivant
         
         let followerListVC = FollowersListVC(username: usernameTextField.text!)
         navigationController?.pushViewController(followerListVC, animated: true)
     }
 }
-
 
 extension SearchVC : UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

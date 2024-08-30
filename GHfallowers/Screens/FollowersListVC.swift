@@ -22,6 +22,7 @@ class FollowersListVC: GFDataLoadingVC {
     var collectionView : UICollectionView!
     var dataSource : UICollectionViewDiffableDataSource<Section,Follower>!
     
+    
     init(username : String) {
         super.init(nibName: nil, bundle: nil)
         self.username   = username
@@ -68,33 +69,37 @@ class FollowersListVC: GFDataLoadingVC {
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
+    
     func getFollowers(username: String, page: Int) {
         showLoadingView()
         isLoadingMoreFollowers = true
 //        on utilise weak self pour ne plus avoir de double reference forte et ainsi supprimer la référence au result du networkmanager
         NetworkManager.shared.getFollowers(for: username, page: page) { [weak self ] result in
-            
 //            avec weak self self devient un optionnal qu'on doit unwrap
             guard let self = self else { return }
             self.dismissLoadingView()
             switch result {
             case .success(let followers) :
-                if followers.count < 100 { self.hasMoreFollowers = false}
-                self.followers.append(contentsOf: followers)
-                
-                if self.followers.isEmpty {
-                    DispatchQueue.main.async {
-                        let message = "Cet utilisateur n’a pas de followers. Allez le suivre. 😉 "
-                        self.showEmptyStateView(with: message, in: self.view)
-                    }
-                    return
-                }
-                self.updateData(on: self.followers)
+                self.updateUI(with: followers)
             case .failure(let error) :
                 self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
             }
             isLoadingMoreFollowers = false
         }
+    }
+    
+    func updateUI (with followers: [Follower]) {
+        if followers.count < 100 { self.hasMoreFollowers = false}
+        self.followers.append(contentsOf: followers)
+        
+        if self.followers.isEmpty {
+            DispatchQueue.main.async {
+                let message = "Cet utilisateur n’a pas de followers. Allez le suivre. 😉 "
+                self.showEmptyStateView(with: message, in: self.view)
+            }
+            return
+        }
+        self.updateData(on: self.followers)
     }
     
     func configureDataSource(){
@@ -120,21 +125,24 @@ class FollowersListVC: GFDataLoadingVC {
             
             switch result {
             case .success(let user):
-                let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-                
-                PersistenceManager.updateWith(favorite: favorite, actionType: .add) {[weak self] error in
-                    guard let self = self else { return }
-                    
-                    guard let error = error else {
-                        self.presentGFAlertOnMainThread(title: GFAlertTitles.sucess, message: GFAlertMessages.addSucess, buttonTitle: "Hourra!")
-                        return
-                    }
-                    self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
-                }
+                self.addUserToFavorites(user: user)
             case .failure(let error):
                 self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
             }
+        }
+    }
+    
+    func addUserToFavorites (user: User){
+        let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
+        
+        PersistenceManager.updateWith(favorite: favorite, actionType: .add) {[weak self] error in
+            guard let self = self else { return }
             
+            guard let error = error else {
+                self.presentGFAlertOnMainThread(title: GFAlertTitles.sucess, message: GFAlertMessages.addSucess, buttonTitle: "Hourra!")
+                return
+            }
+            self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
         }
     }
 }
@@ -154,7 +162,6 @@ extension FollowersListVC: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         let follower = isSearching ? filteredFollowers[indexPath.item] : followers[indexPath.item]
         let destVC = UserInfoVC()
         destVC.username = follower.login
@@ -165,6 +172,7 @@ extension FollowersListVC: UICollectionViewDelegate {
 }
 
 extension FollowersListVC : UISearchResultsUpdating {
+    
     func updateSearchResults(for searchController: UISearchController) {
         guard let filter = searchController.searchBar.text, !filter.isEmpty else {
             filteredFollowers.removeAll()
@@ -180,10 +188,12 @@ extension FollowersListVC : UISearchResultsUpdating {
 
 
 extension FollowersListVC: UserInfoVCDelegate {
+    
     func didRequestFollowers(for username: String) {
         self.username = username
         title = username
         page = 1
+        
         followers.removeAll()
         filteredFollowers.removeAll()
         collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
