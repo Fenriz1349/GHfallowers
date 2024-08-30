@@ -11,7 +11,7 @@ class SearchVC: UIViewController {
 
     let logoImageView = UIImageView()
     let usernameTextField = GFTextField()
-    let getFollowerButton = GFButton(backgroundColor: .systemGreen, title: "Get Fallowers")
+    let getFollowerButton = GFButton(backgroundColor: .systemGreen, title: "Voir les Followers")
     
     var isUsernameEntered : Bool { return !usernameTextField.text!.isEmpty }
 //    configure la view à sa création
@@ -37,7 +37,7 @@ class SearchVC: UIViewController {
 //        permet d'utiliser autoconstraint
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
 //        indique quelle image des assests utiliser, préféré les constantes au lieu d'une String
-        logoImageView.image = Images.ghlogo
+        logoImageView.image = GFImages.ghlogo
 //        Array des constraints de l'image, ici la top anchor, le centrage horizontale, la hauteur et la largeur
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 80),
@@ -78,7 +78,7 @@ class SearchVC: UIViewController {
     
     @objc func pushFollowersListVC(){
         guard isUsernameEntered else{
-            presentGFAlertOnMainThread(title: "Empty Username", message: "Please enter a username. We need to know who to look for 😀.", buttonTitle: "OK")
+            presentGFAlertOnMainThread(title: GFAlertTitles.invalidUsername, message: GFAlertMessages.invalidUsername, buttonTitle: okString)
             return
         }
 //        permet de supprimer le clavier quand on passe à l'écran suivant

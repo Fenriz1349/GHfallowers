@@ -12,7 +12,7 @@ class GFAlertVC: UIViewController {
     let containerView = GFAlertContainerView()
     let titleLabel = GFTitleLabel(textAlignment: .center, fontSize: 20)
     let messageLabel = GFBodyLabel(textAlignment: .center)
-    let actionButton = GFButton(backgroundColor: .systemRed, title: "OK")
+    let actionButton = GFButton(backgroundColor: .systemRed, title: okString)
     
     var alertTitle : String?
     var message : String?
@@ -52,7 +52,7 @@ class GFAlertVC: UIViewController {
     }
     
     func configureTitleLabel() {
-        titleLabel.text = alertTitle ?? "Something went Wrong"
+        titleLabel.text = alertTitle ?? GFAlertTitles.somethingWentWrong
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: padding),
@@ -63,7 +63,7 @@ class GFAlertVC: UIViewController {
     }
     
     func configureActionButton() {
-        actionButton.setTitle(buttonTitle ?? "OK", for: .normal)
+        actionButton.setTitle(buttonTitle ?? okString, for: .normal)
         actionButton.addTarget(self, action: #selector(dismissVC), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
@@ -75,7 +75,7 @@ class GFAlertVC: UIViewController {
     }
     
     func configureMessageLabel() {
-        messageLabel.text = message ?? "Unable to complete request"
+        messageLabel.text = message ?? GFAlertTitles.somethingWentWrong
         messageLabel.numberOfLines = 4
         
         NSLayoutConstraint.activate([

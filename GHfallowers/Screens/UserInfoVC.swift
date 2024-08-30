@@ -72,7 +72,7 @@ class UserInfoVC: GFDataLoadingVC {
                 DispatchQueue.main.async { self.configureUIElements(with: user) }
                 
             case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
+                self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
             }
         }
     }
@@ -81,7 +81,7 @@ class UserInfoVC: GFDataLoadingVC {
         self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
         self.add(childVC: GFRepoItemVC(user: user, delegate: self), to: self.itemViewOne)
         self.add(childVC: GFFollowerItemVC(user: user, delegate: self), to: self.itemViewTwo)
-        self.dateLabel.text = "Github since \(user.createdAt.convertToDisplayFormat())"
+        self.dateLabel.text = "Sur Github depuis \(user.createdAt.convertToDisplayFormat())"
     }
     
     func add(childVC : UIViewController, to containerView: UIView) {
@@ -98,7 +98,7 @@ class UserInfoVC: GFDataLoadingVC {
 extension UserInfoVC: GFRepoItemVCDelegate {
     func didTapGithubProfile(for user: User) {
         guard let url = URL(string: user.htmlUrl) else {
-            presentGFAlertOnMainThread(title: "Invalid URL", message: "the url attached to this user is invalid;", buttonTitle: "OK")
+            presentGFAlertOnMainThread(title:  GFAlertTitles.invalidURL, message: GFAlertMessages.invalidURL, buttonTitle: okString)
             return
         }
         presentSafariVc(with: url)
@@ -108,7 +108,7 @@ extension UserInfoVC: GFRepoItemVCDelegate {
 extension UserInfoVC: GFFollowerItemVCDelegate {
     func didTapGetFollowers(for user: User) {
         guard user.followers != 0 else {
-            presentGFAlertOnMainThread(title: "No Followers", message: "This user has no Followers. What a shame 🙂‍↕️", buttonTitle: "OK")
+            presentGFAlertOnMainThread(title: GFAlertTitles.noFollower, message: GFAlertMessages.noFollower, buttonTitle: okString)
             return
         }
         delegate.didRequestFollowers(for: user.login)

@@ -38,6 +38,6 @@ class GFTextField: UITextField {
         returnKeyType = .go
 //        ajout d'un bouton pour supprimer tout le champ du texfield
         clearButtonMode = .whileEditing
-        placeholder = "Enter a Username"
+        placeholder = "Entrer un nom d'utilisateur"
     }
 }

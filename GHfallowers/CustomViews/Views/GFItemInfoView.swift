@@ -54,10 +54,10 @@ class GFItemInfoView: UIView {
         switch itemInfoType {
         case .repos :
             symbolImageView.image = SFSymbols.repos
-            titleLabel.text = "Public Repos"
+            titleLabel.text = "Repos Publiques"
         case .gists :
             symbolImageView.image = SFSymbols.gists
-            titleLabel.text = "Public Gists"
+            titleLabel.text = "Gists publiques "
         case .followers :
             symbolImageView.image = SFSymbols.followers
             titleLabel.text = "Followers"

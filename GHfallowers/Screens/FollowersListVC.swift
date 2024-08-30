@@ -63,7 +63,7 @@ class FollowersListVC: GFDataLoadingVC {
     func configureSearchController() {
         let searchController = UISearchController()
         searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "Search for a username"
+        searchController.searchBar.placeholder = "Chercher un nom d'utilisateur"
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
@@ -84,14 +84,14 @@ class FollowersListVC: GFDataLoadingVC {
                 
                 if self.followers.isEmpty {
                     DispatchQueue.main.async {
-                        let message = "This User doesn't have any followers. Go follow them 😉 "
+                        let message = "Cet utilisateur n’a pas de followers. Allez le suivre. 😉 "
                         self.showEmptyStateView(with: message, in: self.view)
                     }
                     return
                 }
                 self.updateData(on: self.followers)
             case .failure(let error) :
-                self.presentGFAlertOnMainThread(title: "Bad Stuff Happend", message: error.rawValue, buttonTitle: "OK")
+                self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
             }
             isLoadingMoreFollowers = false
         }
@@ -126,13 +126,13 @@ class FollowersListVC: GFDataLoadingVC {
                     guard let self = self else { return }
                     
                     guard let error = error else {
-                        self.presentGFAlertOnMainThread(title: "Sucess!", message: "You have successfully favorited this user 🎉", buttonTitle: "Hooray!")
+                        self.presentGFAlertOnMainThread(title: GFAlertTitles.sucess, message: GFAlertMessages.addSucess, buttonTitle: "Hourra!")
                         return
                     }
-                    self.presentGFAlertOnMainThread(title: "Something went Wrong", message: error.rawValue, buttonTitle: "OK")
+                    self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
                 }
             case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
+                self.presentGFAlertOnMainThread(title: GFAlertTitles.somethingWentWrong, message: error.rawValue, buttonTitle: okString)
             }
             
         }
